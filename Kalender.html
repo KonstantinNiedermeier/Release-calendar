@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8" />
+    <title>Kalender (LocalStorage)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="kalender.css" />
+</head>
+<body>
+    <div class="app">
+        <!-- Linke Spalte: Kalender + Fortschrittsübersicht -->
+        <div class="left-column">
+            <h1>Kalender (LocalStorage)</h1>
+            <p class="sub">
+                Termine haben Status, einen Verband und einen Bereich (z. B. ELS / SKS).
+                Fortschritt der Gruppen ergibt sich aus den Status der zugeordneten Termine.
+                Geschlossene Gruppen sperren ihre Termine, können aber wieder geöffnet werden.
+            </p>
+
+            <div class="calendar-header">
+                <div class="month-nav">
+                    <button id="prevMonthBtn" class="secondary">&#8592;</button>
+                    <div class="month-label" id="monthLabel"></div>
+                    <button id="nextMonthBtn" class="secondary">&#8594;</button>
+                </div>
+
+                <div class="filter-bar">
+                    <div class="filter-item">
+                        <label for="flagFilter">Verband:</label>
+                        <select id="flagFilter"></select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="typeFlagFilter">Bereich:</label>
+                        <select id="typeFlagFilter"></select>
+                    </div>
+                </div>
+
+                <button id="todayBtn" class="secondary">Heute</button>
+            </div>
+
+            <div class="calendar">
+                <div class="weekdays">
+                    <div class="weekday">Mo</div>
+                    <div class="weekday">Di</div>
+                    <div class="weekday">Mi</div>
+                    <div class="weekday">Do</div>
+                    <div class="weekday">Fr</div>
+                    <div class="weekday">Sa</div>
+                    <div class="weekday">So</div>
+                </div>
+                <div class="days" id="daysContainer"></div>
+            </div>
+
+            <!-- Fortschrittsübersicht direkt unter dem Kalender -->
+            <div class="summary-panel">
+                <div class="summary-header">
+                    <h2>Fortschrittsübersicht (Gruppen)</h2>
+                    <form id="groupForm" class="group-form">
+                        <input id="groupName" type="text" placeholder="Neue Fortschrittsgruppe..." />
+                        <button type="submit">Anlegen</button>
+                    </form>
+                </div>
+                <div class="summary-list" id="summaryList"></div>
+            </div>
+        </div>
+
+        <!-- Rechte Spalte: Formular + Tagesliste -->
+        <div class="panel">
+            <div class="panel-section">
+                <h2>Ausgewählter Tag: <span id="selectedDateLabel"></span></h2>
+                <small id="selectedDateFullLabel"></small>
+            </div>
+
+            <div class="panel-section">
+                <h2>Neuer / bestehender Termin</h2>
+                <form id="eventForm">
+                    <input type="hidden" id="eventId" value="" />
+
+                    <div class="field-row">
+                        <div class="field half">
+                            <label for="eventStartDate">Von*</label>
+                            <input type="date" id="eventStartDate">
+                        </div>
+
+                        <div class="field half">
+                            <label for="eventEndDate">Bis (optional)</label>
+                            <input type="date" id="eventEndDate">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="eventTitle">Titel*</label>
+                        <input id="eventTitle" type="text" required />
+                    </div>
+                    <div class="field">
+                        <label for="eventTime">Uhrzeit</label>
+                        <input id="eventTime" type="time" />
+                    </div>
+                    <div class="field">
+                        <label for="eventStatus">Status</label>
+                        <select id="eventStatus">
+                            <option value="offen">Offen</option>
+                            <option value="in_bearbeitung">In Bearbeitung</option>
+                            <option value="fertig">Fertig</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="eventGroup">Fortschrittsbalken (Gruppe)</label>
+                        <select id="eventGroup">
+                            <option value="">– Keine Zuordnung –</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="eventFlag">Verband</label>
+                        <select id="eventFlag">
+                            <option value="">– Kein Verband –</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="eventTypeFlag">Bereich (z. B. ELS / SKS)</label>
+                        <select id="eventTypeFlag">
+                            <option value="">– Kein Bereich –</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="eventDescription">Beschreibung</label>
+                        <textarea id="eventDescription" rows="3"></textarea>
+                    </div>
+
+                    <div class="panel-actions">
+                        <div class="panel-actions-left">
+                            <button type="submit" id="saveEventBtn">Speichern</button>
+                            <button type="button" class="secondary" id="resetFormBtn">Neuer Termin</button>
+                        </div>
+                        <div class="panel-actions-right">
+                            <button type="button" class="danger" id="deleteSelectedEventBtn" disabled>
+                                Ausgewählten Termin löschen
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="panel-section">
+                <h2>Termine an diesem Tag</h2>
+                <div class="events-list" id="eventsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="kalender.js"></script>
+</body>
+</html>
