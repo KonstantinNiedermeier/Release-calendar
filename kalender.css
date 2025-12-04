@@ -236,7 +236,7 @@ button {
     font-size: 0.65rem;
     line-height: 1.4;
     padding: 0 6px;
-    color: #fff;
+    color: #080807;
     display: flex;
     align-items: center;
     gap: 4px;
@@ -615,18 +615,18 @@ button {
 }
 
 .status-offen {
-    background: #fee2e2;
-    color: #b91c1c;
+    background: #ffcd85;
+    color: #080807;
 }
 
 .status-in_bearbeitung {
-    background: #fef3c7;
-    color: #92400e;
+    background: #fff494;
+    color: #080807;
 }
 
 .status-fertig {
-    background: #dcfce7;
-    color: #166534;
+    background: #d2f5b0;
+    color: #080807;
 }
 
 /* Verband/Bereich-Badges */
@@ -656,6 +656,35 @@ button {
 
 .field-row .half {
     flex: 1;
+}
+/* Fortschrittsbalken in der Gruppenübersicht */
+.progress-bar-container {
+    width: 100%;
+    height: 14px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+    position: relative;
+    margin-top: 2px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    border-radius: 999px;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.progress-bar-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #111827;
+    pointer-events: none;
 }
 
 #eventDescription {

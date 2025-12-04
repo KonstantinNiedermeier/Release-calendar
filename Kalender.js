@@ -5,15 +5,15 @@ const STORAGE_KEY = "calendarDataStatusGroupsV4";
 
 // Konfiguration der verfügbaren Verbände (Haupt-Flags)
 const FLAG_CONFIG = [
-    { id: "prio", label: "Prio", color: "#b91c1c" },
-    { id: "info", label: "Info", color: "#0f766e" },
-    { id: "warte", label: "Warten", color: "#92400e" }
+    { id: "prio", label: "OBS", color: "#b91c1c" },
+    { id: "info", label: "MUE", color: "#0f766e" },
+    { id: "warte", label: "MFR", color: "#92400e" }
 ];
 
 // Konfiguration der Bereiche (z. B. ELS / SKS)
 const TYPE_FLAG_CONFIG = [
-    { id: "ELS", label: "ELS", color: "#7c3aed" },
-    { id: "SKS", label: "SKS", color: "#0ea5e9" }
+    { id: "ELS", label: "ELS", color: "#e00d38" },
+    { id: "SKS", label: "SKS", color: "#eb4969" }
 ];
 
 // DOM-Referenzen
@@ -253,10 +253,10 @@ function statusToProgress(status) {
 }
 
 function progressToColor(progress) {
-    if (progress >= 100) return "#16a34a";
-    if (progress >= 50) return "#2563eb";
-    if (progress > 0) return "#f59e0b";
-    return "#9ca3af";
+    if (progress >= 100) return "#d2f5b0";
+    if (progress >= 50) return "#fff494";
+    if (progress > 0) return "#ffcd85";
+    return "#ffcd85";
 }
 
 // Status-Farbklassen für Chips
@@ -689,8 +689,24 @@ function renderGroupRow(group) {
     range.textContent = `${total} Termin(e), davon ${done} fertig`;
 
     const status = document.createElement("div");
-    status.className = "summary-status";
-    status.textContent = `Durchschnittlicher Fortschritt (aus Status): ${avgRounded}%`;
+	status.className = "summary-status";
+
+	// Fortschrittsbalken mit Prozentangabe im Balken
+	const barContainer = document.createElement("div");
+	barContainer.className = "progress-bar-container";
+
+	const barFill = document.createElement("div");
+	barFill.className = "progress-bar-fill";
+	barFill.style.width = `${avgRounded}%`;
+
+	const label = document.createElement("span");
+	label.className = "progress-bar-label";
+	label.textContent = `${avgRounded}%`;
+
+	barContainer.appendChild(barFill);
+	barContainer.appendChild(label);
+	status.appendChild(barContainer);
+
 
     const actions = document.createElement("div");
     actions.className = "summary-actions";
@@ -948,6 +964,7 @@ function deleteEvent(id) {
         alert("Termine, deren Fortschrittsbalken abgeschlossen ist, können nicht mehr gelöscht werden.");
         return;
     }
+	events = events.filter(e => e.id !== id);
     if (selectedEventId === id) {
         selectedEventId = null;
     }
