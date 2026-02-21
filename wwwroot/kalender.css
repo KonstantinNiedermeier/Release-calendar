@@ -12,7 +12,7 @@ body {
     min-height: 100vh;
 }
 
-/* App über gesamte Breite/Höhe */
+/* App ber gesamte Breite/Hhe */
 .app {
     width: 100%;
     min-height: 100vh;
@@ -20,7 +20,7 @@ body {
     padding: 20px;
     background: #fff;
     display: grid;
-    grid-template-columns: 3fr 2fr; /* Kalender links größer */
+    grid-template-columns: 3fr 2fr; /* Kalender links grer */
     gap: 24px;
 }
 
@@ -118,16 +118,16 @@ button {
     }
 
 /* Kalender-Container:
-   Füllt dynamisch den verfügbaren Platz in der linken Spalte */
+   Fllt dynamisch den verfgbaren Platz in der linken Spalte */
 .calendar {
     border-radius: 12px;
     background: #f9fafb;
     padding: 12px;
     display: flex;
     flex-direction: column;
-    height: 700px; /* Neue feste Höhe */
+    height: 700px; /* Neue feste Hhe */
     min-height: 700px; /* Garantiert 700px minimum */
-    max-height: 700px; /* Verhindert Überschreitung */
+    max-height: 700px; /* Verhindert berschreitung */
 }
 
 /* Kopfzeile (Wochentage) */
@@ -148,7 +148,7 @@ button {
 }
 
 /* Tageszellen-Gitter mit festen Zellen:
-   Alle Tage haben gleiche Breite & gleiche Höhe */
+   Alle Tage haben gleiche Breite & gleiche Hhe */
 .days {
     flex: 1 1 auto;
     display: grid;
@@ -159,7 +159,7 @@ button {
 
 /* Tageszellen */
 .day {
-    min-height: 0; /* wichtig für flex/grid-Kombination */
+    min-height: 0; /* wichtig fr flex/grid-Kombination */
     background: #fff;
     border-radius: 10px;
     padding: 6px;
@@ -241,11 +241,11 @@ button {
     align-items: center;
     gap: 4px;
     max-width: 100%;
-    overflow: hidden; /* ganz wichtig gegen Überlaufen */
+    overflow: hidden; /* ganz wichtig gegen berlaufen */
     white-space: nowrap;
 }
 
-    /* Text (Titel) im Balken: dynamisch gekürzt mit "..." */
+    /* Text (Titel) im Balken: dynamisch gekrzt mit "..." */
     .day-bar span:last-child,
     .day-bar-title {
         flex: 1 1 auto;
@@ -271,7 +271,7 @@ button {
     border-bottom-left-radius: 0;
 }
 
-/* (Kein eigener CSS-Tooltip mehr – wir nutzen den Browser-Tooltip über title) */
+/* (Kein eigener CSS-Tooltip mehr  wir nutzen den Browser-Tooltip ber title) */
 
 /* Responsives Verhalten */
 @media (max-width: 900px) {
@@ -427,7 +427,7 @@ button {
     color: #6b7280;
 }
 
-/* Fortschrittsübersicht (Gruppen) unter dem Kalender */
+/* Fortschrittsbersicht (Gruppen) unter dem Kalender */
 .summary-panel {
     background: #f9fafb;
     border-radius: 12px;
@@ -638,7 +638,7 @@ button {
     white-space: nowrap;
 }
 
-/* Ausgewählter Termin (Kalender & Tagesliste) */
+/* Ausgewhlter Termin (Kalender & Tagesliste) */
 .day-bar.event-selected {
     background: #facc15 !important;
     color: #111827;
@@ -657,7 +657,7 @@ button {
 .field-row .half {
     flex: 1;
 }
-/* Fortschrittsbalken in der Gruppenübersicht */
+/* Fortschrittsbalken in der Gruppenbersicht */
 .progress-bar-container {
     width: 100%;
     height: 14px;
