@@ -1,6 +1,6 @@
 # Release-Kalender (IIS + Datenbank)
 
-Diese Version läuft als **ASP.NET Core Web App** hinter IIS und speichert alle Kalenderdaten in einer **SQLite-Datenbank** (`calendar.db`).
+Diese Version läuft als **ASP.NET Core Web App** hinter IIS und speichert alle Kalenderdaten in einer MS SQL Datenbank.
 
 ## Start lokal
 
