@@ -117,6 +117,15 @@ button {
         filter: brightness(.95);
     }
 
+a.secondary.nav-button {
+    text-decoration: none;
+    background: #e5e7eb;
+    color: #111827;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: .85rem;
+}
+
 /* Kalender-Container:
    Fllt dynamisch den verfgbaren Platz in der linken Spalte */
 .calendar {
