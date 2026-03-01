@@ -34,9 +34,7 @@
                         <select id="typeFlagFilter"></select>
                     </div>
                 </div>
-
                 <button id="todayBtn" class="secondary">Heute</button>
-                <a href="verwaltung.html" class="secondary nav-button">Nutzer & Flags pflegen</a>
             </div>
 
             <div class="calendar">
@@ -68,8 +66,7 @@
         <!-- Rechte Spalte: Formular + Tagesliste -->
         <div class="panel">
             <div class="panel-section">
-                <h2>Ausgewählter Tag: <span id="selectedDateLabel"></span></h2>
-                <small id="selectedDateFullLabel"></small>
+                <a href="verwaltung.html" class="secondary nav-button">Einsetellungen</a>
             </div>
 
             <div class="panel-section">
@@ -146,31 +143,6 @@
                 <h2>Termine an diesem Tag</h2>
                 <div class="events-list" id="eventsList"></div>
             </div>
-
-            <div class="panel-section">
-                <h2>Benutzerverwaltung</h2>
-                <div id="userStatus" class="user-status">Nicht angemeldet</div>
-
-                <form id="loginForm" class="inline-form">
-                    <input id="loginUserName" type="text" placeholder="Benutzername" required />
-                    <input id="loginPassword" type="password" placeholder="Passwort" required />
-                    <button type="submit">Login</button>
-                    <button type="button" class="secondary" id="logoutBtn">Logout</button>
-                </form>
-
-                <form id="registerForm" class="inline-form">
-                    <input id="registerUserName" type="text" placeholder="Neuer Benutzername" required />
-                    <input id="registerPassword" type="password" placeholder="Passwort" required />
-                    <select id="registerRole">
-                        <option value="user">user</option>
-                        <option value="admin">admin</option>
-                    </select>
-                    <button type="submit">Benutzer anlegen</button>
-                </form>
-
-                <div class="events-list" id="usersList"></div>
-            </div>
-
         </div>
     </div>
 
