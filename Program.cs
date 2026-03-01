@@ -1,18 +1,15 @@
 using System.Security.Cryptography;
 using System.Text;
-using Microsoft.Data.Sqlite;
+using Microsoft.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("CalendarDb")
-    ?? "Data Source=calendar.db";
+    ?? "Server=localhost;Database=ReleaseCalendar;Trusted_Connection=True;TrustServerCertificate=True;";
 
 builder.Services.AddSingleton(new Database(connectionString));
 
 var app = builder.Build();
-
-var db = app.Services.GetRequiredService<Database>();
-db.Initialize();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
@@ -137,49 +134,6 @@ public sealed record UserUpdateRequest(string UserName, string Role, bool IsActi
 
 public sealed class Database(string connectionString)
 {
-    public void Initialize()
-    {
-        using var connection = new SqliteConnection(connectionString);
-        connection.Open();
-
-        var pragma = connection.CreateCommand();
-        pragma.CommandText = "PRAGMA foreign_keys = ON;";
-        pragma.ExecuteNonQuery();
-
-        var command = connection.CreateCommand();
-        command.CommandText = """
-            CREATE TABLE IF NOT EXISTS Groups (
-                Id INTEGER PRIMARY KEY,
-                Name TEXT NOT NULL,
-                Closed INTEGER NOT NULL DEFAULT 0
-            );
-
-            CREATE TABLE IF NOT EXISTS Events (
-                Id INTEGER PRIMARY KEY,
-                Title TEXT NOT NULL,
-                StartDate TEXT NOT NULL,
-                EndDate TEXT NULL,
-                Time TEXT NULL,
-                Status TEXT NOT NULL,
-                Description TEXT NULL,
-                GroupId INTEGER NULL,
-                FlagId TEXT NULL,
-                TypeFlagId TEXT NULL,
-                FOREIGN KEY (GroupId) REFERENCES Groups(Id) ON DELETE SET NULL
-            );
-
-            CREATE TABLE IF NOT EXISTS Users (
-                Id INTEGER PRIMARY KEY,
-                UserName TEXT NOT NULL UNIQUE,
-                PasswordHash TEXT NOT NULL,
-                Role TEXT NOT NULL,
-                IsActive INTEGER NOT NULL DEFAULT 1,
-                CreatedAt TEXT NOT NULL
-            );
-            """;
-        command.ExecuteNonQuery();
-    }
-
     public List<CalendarEvent> GetEvents()
     {
         using var connection = Open();
@@ -255,7 +209,7 @@ public sealed class Database(string connectionString)
             list.Add(new CalendarGroup(
                 reader.GetInt64(0),
                 reader.GetString(1),
-                reader.GetInt64(2) == 1));
+                reader.GetBoolean(2)));
         }
 
         return list;
@@ -280,7 +234,7 @@ public sealed class Database(string connectionString)
         command.CommandText = "UPDATE Groups SET Name = @name, Closed = @closed WHERE Id = @id";
         command.Parameters.AddWithValue("@id", id);
         command.Parameters.AddWithValue("@name", name);
-        command.Parameters.AddWithValue("@closed", closed ? 1 : 0);
+        command.Parameters.AddWithValue("@closed", closed);
 
         return command.ExecuteNonQuery() == 0 ? null : new CalendarGroup(id, name, closed);
     }
@@ -291,7 +245,7 @@ public sealed class Database(string connectionString)
         var command = connection.CreateCommand();
         command.CommandText = "UPDATE Groups SET Closed = @closed WHERE Id = @id";
         command.Parameters.AddWithValue("@id", id);
-        command.Parameters.AddWithValue("@closed", closed ? 1 : 0);
+        command.Parameters.AddWithValue("@closed", closed);
 
         return command.ExecuteNonQuery() == 0 ? null : GetGroup(id);
     }
@@ -353,7 +307,7 @@ public sealed class Database(string connectionString)
             command.ExecuteNonQuery();
             return GetUser(id);
         }
-        catch (SqliteException)
+        catch (SqlException)
         {
             return null;
         }
@@ -385,7 +339,7 @@ public sealed class Database(string connectionString)
         command.Parameters.AddWithValue("@id", id);
         command.Parameters.AddWithValue("@userName", userName);
         command.Parameters.AddWithValue("@role", string.IsNullOrWhiteSpace(role) ? "user" : role.Trim().ToLowerInvariant());
-        command.Parameters.AddWithValue("@isActive", isActive ? 1 : 0);
+        command.Parameters.AddWithValue("@isActive", isActive);
 
         return command.ExecuteNonQuery() == 0 ? null : GetUser(id);
     }
@@ -412,7 +366,7 @@ public sealed class Database(string connectionString)
         return new CalendarGroup(
             reader.GetInt64(0),
             reader.GetString(1),
-            reader.GetInt64(2) == 1);
+            reader.GetBoolean(2));
     }
 
     private AppUser? GetUser(long id)
@@ -426,17 +380,17 @@ public sealed class Database(string connectionString)
         return reader.Read() ? ReadUser(reader) : null;
     }
 
-    private static AppUser ReadUser(SqliteDataReader reader)
+    private static AppUser ReadUser(SqlDataReader reader)
     {
         return new AppUser(
             reader.GetInt64(0),
             reader.GetString(1),
             reader.GetString(2),
-            reader.GetInt64(3) == 1,
+            reader.GetBoolean(3),
             reader.GetString(4));
     }
 
-    private static CalendarEvent ReadEvent(SqliteDataReader reader)
+    private static CalendarEvent ReadEvent(SqlDataReader reader)
     {
         return new CalendarEvent(
             reader.GetInt64(0),
@@ -451,7 +405,7 @@ public sealed class Database(string connectionString)
             reader.IsDBNull(9) ? null : reader.GetString(9));
     }
 
-    private static void FillEventParams(SqliteCommand command, long id, CalendarEvent payload)
+    private static void FillEventParams(SqlCommand command, long id, CalendarEvent payload)
     {
         command.Parameters.AddWithValue("@id", id);
         command.Parameters.AddWithValue("@title", payload.Title);
@@ -471,15 +425,10 @@ public sealed class Database(string connectionString)
         return Convert.ToHexString(bytes);
     }
 
-    private SqliteConnection Open()
+    private SqlConnection Open()
     {
-        var connection = new SqliteConnection(connectionString);
+        var connection = new SqlConnection(connectionString);
         connection.Open();
-
-        var pragma = connection.CreateCommand();
-        pragma.CommandText = "PRAGMA foreign_keys = ON;";
-        pragma.ExecuteNonQuery();
-
         return connection;
     }
 }
