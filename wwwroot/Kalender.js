@@ -2,7 +2,7 @@
 // Kalender mit REST-API/DB, Gruppen, Status, Verband/Bereich-Flags, Filtern, Mehrtagesbalken, Tooltips
 
 // Konfiguration der verfügbaren Verbände (Haupt-Flags)
-const FLAG_CONFIG = [
+let FLAG_CONFIG = [
     { id: "prio", label: "OBS", color: "#b91c1c" },
     { id: "info", label: "MUE", color: "#0f766e" },
     { id: "warte", label: "MFR", color: "#92400e" }
@@ -112,6 +112,19 @@ function createFlagBadge(flag) {
     return span;
 }
 
+
+async function loadFlags() {
+    try {
+        const flags = await apiRequest("/api/flags");
+        FLAG_CONFIG = (flags || []).map(f => ({
+            id: String(f.id),
+            label: f.name,
+            color: f.color || "#2563eb"
+        }));
+    } catch (error) {
+        console.error("Flags konnten nicht geladen werden", error);
+    }
+}
 function renderFlagOptions() {
     // Verband im Formular
     if (eventFlagSelect) {
@@ -1288,6 +1301,7 @@ if (typeFlagFilterSelect) {
 // ---------------- Init ----------------
 (async function init() {
     await loadFromStorage();
+    await loadFlags();
     renderFlagOptions();
     renderFilterOptions();
     rebuildEventsByDate();

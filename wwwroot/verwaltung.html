@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pflege Nutzer & Flags</title>
+  <link rel="stylesheet" href="kalender.css" />
+</head>
+<body>
+  <div class="app" style="grid-template-columns: 1fr;">
+    <div class="panel">
+      <div class="panel-section">
+        <h1>Pflege Nutzer und Flags</h1>
+        <a href="index.html" class="secondary nav-button">Zurück zum Kalender</a>
+      </div>
+
+      <div class="panel-section">
+        <h2>Benutzer</h2>
+        <form id="userForm" class="inline-form">
+          <input id="firstname" type="text" placeholder="Vorname" required />
+          <input id="lastname" type="text" placeholder="Nachname" required />
+          <input id="verband" type="text" maxlength="3" placeholder="Verband (3)" required />
+          <select id="roleSelect"></select>
+          <button type="submit">Speichern</button>
+        </form>
+        <div id="usersTable" class="events-list"></div>
+      </div>
+
+      <div class="panel-section">
+        <h2>Flags</h2>
+        <form id="flagForm" class="inline-form">
+          <input id="flagName" type="text" maxlength="10" placeholder="Name" required />
+          <input id="flagColor" type="text" maxlength="7" placeholder="#RRGGBB" required />
+          <label><input id="flagVerband" type="checkbox" /> Verband</label>
+          <label><input id="flagBereich" type="checkbox" /> Bereich</label>
+          <input id="flagDescription" type="text" placeholder="Beschreibung" />
+          <button type="submit">Speichern</button>
+        </form>
+        <div id="flagsTable" class="events-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="verwaltung.js"></script>
+</body>
+</html>
