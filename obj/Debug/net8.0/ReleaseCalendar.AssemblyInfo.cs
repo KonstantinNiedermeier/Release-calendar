@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ReleaseCalendar")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9ed5c14ac4c578c0f534b4a4c0055c98e4605e69")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+024cdf7d415de7300ad8a5c260069cce477358f5")]
 [assembly: System.Reflection.AssemblyProductAttribute("ReleaseCalendar")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ReleaseCalendar")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
